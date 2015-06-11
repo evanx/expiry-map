@@ -1,5 +1,4 @@
 
-
 import assert from 'assert';
 import Immutable from 'immutable';
 
