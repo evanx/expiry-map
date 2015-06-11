@@ -12,7 +12,7 @@ export default class ExpiryMap {
     }
 
     set(key, value) {
-      let expiry = new Date().getTime() + this.millis;
+      let expiry = new Date().getTime() + th.millis;
       this.expiring = this.expiring.set(key, expiry);
       this.map = this.map.set(key, value);
     }
@@ -20,6 +20,7 @@ export default class ExpiryMap {
     get(key) {
       let time = new Date().getTime();
       let expired = this.expiring.filter(expiry => expiry < time).keys();
+      console.log('deleteIn', this.expiring.deleteIn(expired));
       //this.expiring = this.expiring.deleteIn(expired);
       //this.map.deleteIn(expired);
       //console.log('keys', this.map);
