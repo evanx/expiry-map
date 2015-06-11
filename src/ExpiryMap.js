@@ -3,25 +3,26 @@
 import assert from 'assert';
 import Immutable from 'immutable';
 
-module.exports = function(that) {
-  assert(that && that.millis, 'millis');
-  that.expiring = Immutable.Map();
-  that.map = Immutable.Map();
+export default class ExpiryMap {
 
-  function set(key, value) {
-    let expiry = new Date().getTime() + that.millis;
-    that.expiring = that.expiring.set(key, expiry);
-    that.map = that.map.set(key, value);
-  }
+    constructor(millis) {
+      this.millis = millis;
+      this.expiring = Immutable.Map();
+      this.map = Immutable.Map();
+    }
 
-  function get(key) {
-    let time = new Date().getTime();
-    let expired = that.expiring.filter(expiry => expiry < time).keys();
-    //that.expiring = that.expiring.deleteIn(expired);
-    //that.map.deleteIn(expired);
-    //console.log('keys', that.map);
-    return that.map.get(key);
-  }
+    set(key, value) {
+      let expiry = new Date().getTime() + this.millis;
+      this.expiring = this.expiring.set(key, expiry);
+      this.map = this.map.set(key, value);
+    }
 
-  return { set, get };
+    get(key) {
+      let time = new Date().getTime();
+      let expired = this.expiring.filter(expiry => expiry < time).keys();
+      //this.expiring = this.expiring.deleteIn(expired);
+      //this.map.deleteIn(expired);
+      //console.log('keys', this.map);
+      return this.map.get(key);
+    }
 };
